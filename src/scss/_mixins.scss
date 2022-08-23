@@ -1,0 +1,118 @@
+//Миксин для flex элементов ---------------------------------------------------------------------
+@mixin flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@mixin flex-center-column {
+	@include flex-center;
+	flex-direction: column;
+}
+
+@mixin flex-center-vert {
+	display: flex;
+	align-items: center;
+}
+
+@mixin flex-center-horiz {
+	display: flex;
+	justify-content: center;
+}
+// ----------------------------------------------------------------------------------------------
+
+//Миксин для back-background --------------------------------------------------------------------
+@mixin cover-background {
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+// ----------------------------------------------------------------------------------------------
+
+//Миксин ::after/before -------------------------------------------------------------------------
+@mixin pseudo($width: 100%, $height: 100%, $display: inline-block, $pos: absolute, $content: "") {
+	content: $content;
+	display: $display;
+	position: $pos;
+	width: $width;
+	height: $height;
+}
+// ----------------------------------------------------------------------------------------------
+
+// Миксины адаптивного font-size в зависимости от разрешения экрана -----------------------------
+$tablet: 768;
+$large: 1024;
+$desktop: 1280;
+
+@mixin tablet {
+	@media only screen and (min-width: $tablet * 1px) {
+		@content;
+	}
+}
+
+@mixin large {
+	@media only screen and (min-width: $large * 1px) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media only screen and (min-width: $desktop * 1px) {
+		@content;
+	}
+}
+// ----------------------------------------------------------------------------------------------
+
+// Миксин кнопки анимации -----------------------------------------------------------------------
+@mixin background-transition($initial, $hover, $inversed: false) {
+	background: linear-gradient(90deg, $hover 0%, $hover 50%, $initial 50%, $initial 100%);
+	background-repeat: no-repeat;
+	background-size: 200% 100%;
+
+	background-position: right bottom;
+	@if $inversed {
+		background-position: left bottom;
+	}
+	transition: background-position 0.25s ease-out;
+
+	&:hover {
+		background-position: left bottom;
+		@if $inversed {
+			background-position: right bottom;
+		}
+	}
+}
+// ----------------------------------------------------------------------------------------------
+
+//Миксин который адптирует свойство которое ты укажешь в зависимости от vw ----------------------
+//@include adaptiveProperty("font-size", 30, 3, 0);
+$maxWidth: 1920;
+$minWidth: 100;
+@mixin adaptiveProperty($property, $startValue, $secondValue, $mode) {
+	$addValue: $startValue - $secondValue;
+
+	@if ($mode == 1) {
+		@media (max-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(
+				#{$startValue + px}+$addValue * (100vw - #{$minWidth + px}) / (#{$maxWidthContainer + px}-#{$minWidth + px})
+			);
+		}
+	} @else if ($mode == 2) {
+		@media (min-width: #{$maxWidthContainer + px}) {
+			#{$property}: calc(
+				#{$startValue + px}+$addValue * (100vw - #{$minWidth + px}) / (#{$maxWidthContainer + px} - #{$minWidth +
+							px})
+			);
+		}
+	} @else {
+		#{$property}: calc(
+			#{$startValue + px} + (#{$addValue} * ((100vw - #{$minWidth + px}) / #{$maxWidth - $minWidth}))
+		);
+	}
+}
+// ----------------------------------------------------------------------------------------------
