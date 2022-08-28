@@ -33,7 +33,7 @@ body {
 	width: 100%;
 	font-size: 100%;
 	line-height: 1;
-	font-size: 16px; //В фунции менять вот это свойство надо
+	font-size: 16px; // Тут менят дефолтное значение font-size
 	-ms-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -78,3 +78,13 @@ h6 {
 	font-weight: 400;
 }
 /*--------------------*/
+
+.bigred {
+	font-size: 20px;
+	color: red;
+}
+
+html,
+body {
+	overflow-x: hidden;
+}
